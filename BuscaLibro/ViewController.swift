@@ -11,7 +11,9 @@ import UIKit
 class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var isbTextField: UITextField!
-    @IBOutlet var responseTextView: UITextView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var authorLabel: UILabel!
+    @IBOutlet var imageBook: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +34,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let session = NSURLSession.sharedSession()
         if url != nil{
             let dt = session.dataTaskWithURL(url!) { (datos, response, error) -> Void in
-                let texto = NSString(data: datos!, encoding: NSUTF8StringEncoding)
-                //print("Texto \(texto!)")
+                //let texto = NSString(data: datos!, encoding: NSUTF8StringEncoding)
+                
                 dispatch_sync(dispatch_get_main_queue()){
-                    self.showData(texto!)
+                    self.showData(datos!)
                 }
                 
             }
@@ -50,16 +52,67 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func showData(response:NSString){
+    func showData(response:NSData){
         //print("response \(response)")
-        if response != "{}"{
-            responseTextView.text = "\(response)"
+        self.authorLabel.text = ""
+        if response != ""{
+            //responseTextView.text = "\(response)"
+            //print("respose \(response)")
+            do{
+                let json = try NSJSONSerialization.JSONObjectWithData(response, options: NSJSONReadingOptions.MutableLeaves)
+                let objectDic = json as! NSDictionary
+                let level = "ISBN:\(isbTextField.text!)"
+                let dic2 = objectDic[level] as! NSDictionary
+                
+                if let title = dic2["title"]  {
+                    self.titleLabel.text = title as? String
+                    if let authorDic = objectDic[level]?["authors"] {
+                        
+                        for author in authorDic as! NSArray{
+                            let authorS = author["name"] as! String
+                            self.authorLabel.text = self.authorLabel.text! + "\(authorS)\n"
+                            
+                        }
+                    }
+                    if let coverURL = dic2["cover"]?["large"]{
+                        print("cover \(coverURL!)")
+                        getBookCoverFromURL(coverURL as! String)
+                    }
+                    
+                }else{
+                    self.showAlertErrorMessage()
+                }
+            }catch{
+                
+            }
+            
         }else{
-            let alert = UIAlertController(title: "No encontrado", message: "Error, no se encontro libro, por favor intenta nuevamente", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-
+            showAlertErrorMessage()
         }
+    }
+    
+    func getBookCoverFromURL(urlString: String){
+        let url = NSURL(string: urlString)
+        let session = NSURLSession.sharedSession()
+        if url != nil{
+            let dt = session.dataTaskWithURL(url!) { (datos, response, error) -> Void in
+                //let texto = NSString(data: datos!, encoding: NSUTF8StringEncoding)
+                
+                dispatch_sync(dispatch_get_main_queue()){
+                    self.imageBook.image = UIImage(data: datos!)
+                }
+                
+            }
+            dt.resume()
+        }else{
+            print("no image")
+        }
+    }
+    
+    func showAlertErrorMessage(){
+        let alert = UIAlertController(title: "No encontrado", message: "Error, no se encontro libro, por favor intenta nuevamente", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     
