@@ -62,26 +62,56 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 let json = try NSJSONSerialization.JSONObjectWithData(response, options: NSJSONReadingOptions.MutableLeaves)
                 let objectDic = json as! NSDictionary
                 let level = "ISBN:\(isbTextField.text!)"
-                let dic2 = objectDic[level] as! NSDictionary
+                //let dic2 = objectDic[level] as! NSDictionary
                 
-                if let title = dic2["title"]  {
-                    self.titleLabel.text = title as? String
-                    if let authorDic = objectDic[level]?["authors"] {
-                        
-                        for author in authorDic as! NSArray{
-                            let authorS = author["name"] as! String
-                            self.authorLabel.text = self.authorLabel.text! + "\(authorS)\n"
-                            
+                if let exist = objectDic[level]{
+                    // Check Title
+                    if let title = exist["title"] as? String{
+                        print("Title \(title)")
+                        self.titleLabel.text = title
+                    }
+                    // Check Author
+                    if let authors = exist["authors"] as? NSArray{
+                        for author in authors{
+                            let name  = author["name"] as? String
+                            self.authorLabel.text = self.authorLabel.text! + "\(name!)\n"
                         }
                     }
-                    if let coverURL = dic2["cover"]?["large"]{
-                        print("cover \(coverURL!)")
-                        getBookCoverFromURL(coverURL as! String)
-                    }
                     
+                    
+                    if let cover = exist["cover"] as? NSDictionary{
+                        print("cover \(cover)")
+                        getBookCoverFromURL(cover["large"] as! String)
+                    }else{
+                        self.imageBook.image = nil
+                    }
                 }else{
-                    self.showAlertErrorMessage()
+                    showAlertErrorMessage()
                 }
+                
+//                if let title = objectDic[level]!["title"]  {
+//                    if let
+//                    self.titleLabel.text = title as? String
+//                    if let authorDic = objectDic[level]?["authors"] {
+//                        
+//                        for author in authorDic as! NSArray{
+//                            let authorS = author["name"] as! String
+//                            self.authorLabel.text = self.authorLabel.text! + "\(authorS)\n"
+//                            
+//                        }
+//                    }
+                
+
+                    
+                    
+//                    if let coverURL = objectDic[level]!["cover"]{
+//                        print("cover \(coverURL!)")
+//                        getBookCoverFromURL(coverURL as! String)
+//                    }
+                    
+//                }else{
+//                    self.showAlertErrorMessage()
+//                }
             }catch{
                 
             }
@@ -97,7 +127,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if url != nil{
             let dt = session.dataTaskWithURL(url!) { (datos, response, error) -> Void in
                 //let texto = NSString(data: datos!, encoding: NSUTF8StringEncoding)
-                
                 dispatch_sync(dispatch_get_main_queue()){
                     self.imageBook.image = UIImage(data: datos!)
                 }
