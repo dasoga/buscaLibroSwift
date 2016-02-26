@@ -245,6 +245,7 @@
                     </view>
                     <connections>
                         <outlet property="authorLabel" destination="mha-aL-ElD" id="oNz-dr-noZ"/>
+                        <outlet property="doneButton" destination="aAn-uM-kVf" id="OcV-C9-LNi"/>
                         <outlet property="imageBook" destination="4r1-XR-Eyp" id="AHJ-44-y7f"/>
                         <outlet property="isbTextField" destination="bmj-d9-Phe" id="56S-qq-idQ"/>
                         <outlet property="titleLabel" destination="Pdy-oT-wd7" id="bF9-AR-K7X"/>

@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var imageBook: UIImageView!
+    @IBOutlet var doneButton: UIButton!
     
     var bookIsbn:String = ""
     var bookTitle:String = ""
@@ -99,7 +100,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     }else{
                         self.imageBook.image = nil
                     }
-                    
+                    doneButton.hidden = false
                 }else{
                     
                     showAlertErrorMessage()
@@ -132,6 +133,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func showAlertErrorMessage(){
+        doneButton.hidden = true
         let alert = UIAlertController(title: "No encontrado", message: "Error, no se encontro libro, por favor intenta nuevamente", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
