@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C430D4B1C80AF0B005B845A /* BookModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C430D491C80AF0B005B845A /* BookModel.xcdatamodeld */; };
+		2C430D581C80B26C005B845A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C430D571C80B26C005B845A /* DataController.swift */; };
+		2C9285961C80C10600C8BDDD /* Book+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9285941C80C10600C8BDDD /* Book+CoreDataProperties.swift */; };
+		2C9285971C80C10600C8BDDD /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9285951C80C10600C8BDDD /* Book.swift */; };
+		2CAEC2AB1C7E7570005DC45D /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEC2AA1C7E7570005DC45D /* BooksTableViewController.swift */; };
 		2CAF32321C6A44A90066BC05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF32311C6A44A90066BC05 /* AppDelegate.swift */; };
 		2CAF32341C6A44A90066BC05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF32331C6A44A90066BC05 /* ViewController.swift */; };
 		2CAF32371C6A44A90066BC05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CAF32351C6A44A90066BC05 /* Main.storyboard */; };
@@ -15,6 +20,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C430D4A1C80AF0B005B845A /* BookModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BookModel.xcdatamodel; sourceTree = "<group>"; };
+		2C430D571C80B26C005B845A /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		2C9285941C80C10600C8BDDD /* Book+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Book+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2C9285951C80C10600C8BDDD /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		2CAEC2AA1C7E7570005DC45D /* BooksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksTableViewController.swift; sourceTree = "<group>"; };
 		2CAF322E1C6A44A90066BC05 /* BuscaLibro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuscaLibro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CAF32311C6A44A90066BC05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CAF32331C6A44A90066BC05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +48,8 @@
 		2CAF32251C6A44A90066BC05 = {
 			isa = PBXGroup;
 			children = (
+				2C9285941C80C10600C8BDDD /* Book+CoreDataProperties.swift */,
+				2C9285951C80C10600C8BDDD /* Book.swift */,
 				2CAF32301C6A44A90066BC05 /* BuscaLibro */,
 				2CAF322F1C6A44A90066BC05 /* Products */,
 			);
@@ -60,6 +72,9 @@
 				2CAF32381C6A44A90066BC05 /* Assets.xcassets */,
 				2CAF323A1C6A44A90066BC05 /* LaunchScreen.storyboard */,
 				2CAF323D1C6A44A90066BC05 /* Info.plist */,
+				2CAEC2AA1C7E7570005DC45D /* BooksTableViewController.swift */,
+				2C430D491C80AF0B005B845A /* BookModel.xcdatamodeld */,
+				2C430D571C80B26C005B845A /* DataController.swift */,
 			);
 			path = BuscaLibro;
 			sourceTree = "<group>";
@@ -90,7 +105,7 @@
 		2CAF32261C6A44A90066BC05 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Dante Solorio";
 				TargetAttributes = {
@@ -135,8 +150,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C430D581C80B26C005B845A /* DataController.swift in Sources */,
 				2CAF32341C6A44A90066BC05 /* ViewController.swift in Sources */,
+				2C9285971C80C10600C8BDDD /* Book.swift in Sources */,
+				2C9285961C80C10600C8BDDD /* Book+CoreDataProperties.swift in Sources */,
+				2C430D4B1C80AF0B005B845A /* BookModel.xcdatamodeld in Sources */,
 				2CAF32321C6A44A90066BC05 /* AppDelegate.swift in Sources */,
+				2CAEC2AB1C7E7570005DC45D /* BooksTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,10 +267,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = BuscaLibro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dante.BuscaLibro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -258,10 +281,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = BuscaLibro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dante.BuscaLibro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
@@ -284,8 +309,22 @@
 				2CAF32421C6A44A90066BC05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2C430D491C80AF0B005B845A /* BookModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2C430D4A1C80AF0B005B845A /* BookModel.xcdatamodel */,
+			);
+			currentVersion = 2C430D4A1C80AF0B005B845A /* BookModel.xcdatamodel */;
+			path = BookModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2CAF32261C6A44A90066BC05 /* Project object */;
 }

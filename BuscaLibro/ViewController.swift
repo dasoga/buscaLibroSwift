@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
@@ -14,17 +15,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var imageBook: UIImageView!
+    
+    var bookIsbn:String = ""
+    var bookTitle:String = ""
+    var bookAuthors:String = ""
+    var bookImage:UIImage = UIImage()
+    
+    let moc = DataController().managedObjectContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         isbTextField.delegate = self
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    // MARK: General Functions
 
     
     func getBookDataFunction(isbn: String){
@@ -66,8 +79,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
                 if let exist = objectDic[level]{
                     // Check Title
+                    bookIsbn = level
                     if let title = exist["title"] as? String{
-                        print("Title \(title)")
+                        //print("Title \(title)")
+                        bookTitle = title
                         self.titleLabel.text = title
                     }
                     // Check Author
@@ -75,6 +90,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         for author in authors{
                             let name  = author["name"] as? String
                             self.authorLabel.text = self.authorLabel.text! + "\(name!)\n"
+                            bookAuthors = self.authorLabel.text! + "\(name!)\n"
                         }
                     }
                     
@@ -82,41 +98,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     if let cover = exist["cover"] as? NSDictionary{
                         print("cover \(cover)")
                         getBookCoverFromURL(cover["large"] as! String)
+                        
                     }else{
                         self.imageBook.image = nil
                     }
+                    
+                    self.saveBook(bookIsbn)
                 }else{
+                    print("first error")
                     showAlertErrorMessage()
                 }
-                
-//                if let title = objectDic[level]!["title"]  {
-//                    if let
-//                    self.titleLabel.text = title as? String
-//                    if let authorDic = objectDic[level]?["authors"] {
-//                        
-//                        for author in authorDic as! NSArray{
-//                            let authorS = author["name"] as! String
-//                            self.authorLabel.text = self.authorLabel.text! + "\(authorS)\n"
-//                            
-//                        }
-//                    }
-                
-
-                    
-                    
-//                    if let coverURL = objectDic[level]!["cover"]{
-//                        print("cover \(coverURL!)")
-//                        getBookCoverFromURL(coverURL as! String)
-//                    }
-                    
-//                }else{
-//                    self.showAlertErrorMessage()
-//                }
             }catch{
                 
             }
             
         }else{
+            print("second error")
             showAlertErrorMessage()
         }
     }
@@ -129,6 +126,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 //let texto = NSString(data: datos!, encoding: NSUTF8StringEncoding)
                 dispatch_sync(dispatch_get_main_queue()){
                     self.imageBook.image = UIImage(data: datos!)
+                    self.bookImage = UIImage(data: datos!)!
                 }
                 
             }
@@ -145,6 +143,55 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    func saveBook(isbn:String){
+        let entity = NSEntityDescription.insertNewObjectForEntityForName("Book", inManagedObjectContext: moc) as! Book
+        
+        if isExistBook(isbn){
+            print("not save it because is duplicate")
+            let alert = UIAlertController(title: "¡Alerta!", message: "Al parecer ya haz agregado este libro anteriormente.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }else{
+            entity.setValue(bookIsbn, forKey: "isbn")
+            entity.setValue(bookTitle, forKey: "title")
+            entity.setValue(bookAuthors, forKey: "authors")
+            do{
+                try moc.save()
+            }catch{
+                fatalError("failure to save context: \(error)")
+            }
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    func isExistBook(isbn:String)->Bool{
+        let bookFetch = NSFetchRequest(entityName: "Book")
+        var isExist = false
+        do{
+            let fetchedBook = try moc.executeFetchRequest(bookFetch) as! [Book]
+            if fetchedBook.count > 0 {
+                for book in fetchedBook{
+                    if book.isbn != nil{
+                        if book.isbn == isbn{
+                            isExist = true
+                        }
+                    }
+                }
+            }
+        }catch{
+            fatalError("bad things happened \(error)")
+        }
+        return isExist
+    }
+    
+    //MARK: Actions
+    
+    @IBAction func hideKeyboard(sender:AnyObject){
+        isbTextField.resignFirstResponder()
+    }
+    
+    // MARK: Text field delegate
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField.text! != ""{
             getBookDataFunction(textField.text!)
@@ -157,7 +204,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
     
+    @IBAction func closeAction(sender:AnyObject){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     
 
