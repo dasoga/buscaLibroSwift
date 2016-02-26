@@ -39,7 +39,7 @@ class BooksTableViewController: UIViewController, UITableViewDataSource, UITable
         do{
             let fetchedBook = try moc.executeFetchRequest(bookFetch) as! [Book]
             if fetchedBook.count > 0 {
-                for book in fetchedBook{                    
+                for book in fetchedBook{
                     if book.isbn != nil{
                         self.books.append(book)
                     }
@@ -67,15 +67,28 @@ class BooksTableViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "detailSegue"{
+            let bookGet = books[booksListTableView.indexPathForSelectedRow!.row] as Book
+            let detail = segue.destinationViewController as! DetailBookViewController
+            detail.bookTitle = bookGet.title!
+            detail.bookAuthors = bookGet.authors!
+            if bookGet.image != nil{
+                detail.bookImage = bookGet.image!
+            }
+        }
     }
-    */
+    
 
 }

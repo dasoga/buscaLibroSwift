@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var bookIsbn:String = ""
     var bookTitle:String = ""
     var bookAuthors:String = ""
-    var bookImage:UIImage = UIImage()
+    var bookImage:NSData!
     
     let moc = DataController().managedObjectContext
 
@@ -96,16 +96,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     
                     
                     if let cover = exist["cover"] as? NSDictionary{
-                        print("cover \(cover)")
                         getBookCoverFromURL(cover["large"] as! String)
                         
                     }else{
                         self.imageBook.image = nil
+                        self.saveBook(bookIsbn)
                     }
                     
-                    self.saveBook(bookIsbn)
                 }else{
-                    print("first error")
+                    
                     showAlertErrorMessage()
                 }
             }catch{
@@ -113,7 +112,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
             
         }else{
-            print("second error")
             showAlertErrorMessage()
         }
     }
@@ -126,7 +124,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 //let texto = NSString(data: datos!, encoding: NSUTF8StringEncoding)
                 dispatch_sync(dispatch_get_main_queue()){
                     self.imageBook.image = UIImage(data: datos!)
-                    self.bookImage = UIImage(data: datos!)!
+                    self.bookImage = datos!
+                    self.saveBook(self.bookIsbn)
                 }
                 
             }
@@ -155,6 +154,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             entity.setValue(bookIsbn, forKey: "isbn")
             entity.setValue(bookTitle, forKey: "title")
             entity.setValue(bookAuthors, forKey: "authors")
+            entity.setValue(bookImage, forKey: "image")
             do{
                 try moc.save()
             }catch{
