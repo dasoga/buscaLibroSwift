@@ -27,8 +27,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         isbTextField.delegate = self
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -100,7 +98,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         
                     }else{
                         self.imageBook.image = nil
-                        self.saveBook(bookIsbn)
                     }
                     
                 }else{
@@ -125,7 +122,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 dispatch_sync(dispatch_get_main_queue()){
                     self.imageBook.image = UIImage(data: datos!)
                     self.bookImage = datos!
-                    self.saveBook(self.bookIsbn)
                 }
                 
             }
@@ -142,7 +138,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    func saveBook(isbn:String){
+    func saveBook(isbn:String)->Bool{
         let entity = NSEntityDescription.insertNewObjectForEntityForName("Book", inManagedObjectContext: moc) as! Book
         
         if isExistBook(isbn){
@@ -150,6 +146,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let alert = UIAlertController(title: "¡Alerta!", message: "Al parecer ya haz agregado este libro anteriormente.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
+            return false
         }else{
             entity.setValue(bookIsbn, forKey: "isbn")
             entity.setValue(bookTitle, forKey: "title")
@@ -160,7 +157,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }catch{
                 fatalError("failure to save context: \(error)")
             }
-            self.dismissViewControllerAnimated(true, completion: nil)
+            return true
         }
     }
     
@@ -190,6 +187,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         isbTextField.resignFirstResponder()
     }
     
+    @IBAction func closeAction(sender:AnyObject){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func saveAction(sender:AnyObject){
+        if self.saveBook(bookIsbn){
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
     // MARK: Text field delegate
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -206,9 +213,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     
-    @IBAction func closeAction(sender:AnyObject){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
+
     
     
 
