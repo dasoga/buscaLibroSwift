@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var imageBook: UIImageView!
     @IBOutlet var doneButton: UIButton!
+    @IBOutlet var duplicatedLabel: UILabel!
     
     var bookIsbn:String = ""
     var bookTitle:String = ""
@@ -100,7 +101,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     }else{
                         self.imageBook.image = nil
                     }
-                    doneButton.hidden = false
+                    if isExistBook(level){
+                        self.duplicatedLabel.text = "Este libro ya esta en tu lista"
+                        self.duplicatedLabel.textColor = UIColor.redColor()
+                        self.duplicatedLabel.hidden = false
+                    }else{
+                        doneButton.hidden = false
+                    }
+                    
                 }else{
                     
                     showAlertErrorMessage()

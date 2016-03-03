@@ -211,6 +211,12 @@
                                     <action selector="closeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VZ0-2K-qgN"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="duplicated..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZX-m7-hd6">
+                                <rect key="frame" x="253" y="107" width="95" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -228,7 +234,9 @@
                             <constraint firstItem="mha-aL-ElD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Ynt-uO-IjU"/>
                             <constraint firstItem="l0v-s7-nbJ" firstAttribute="top" secondItem="bmj-d9-Phe" secondAttribute="bottom" constant="42" id="Yxn-wQ-ihV"/>
                             <constraint firstItem="4r1-XR-Eyp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aKN-2y-Te7"/>
+                            <constraint firstItem="KZX-m7-hd6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="auA-Fq-fNm"/>
                             <constraint firstItem="aAn-uM-kVf" firstAttribute="height" secondItem="tr1-jI-R0w" secondAttribute="height" id="bde-6n-yHg"/>
+                            <constraint firstItem="KZX-m7-hd6" firstAttribute="top" secondItem="bmj-d9-Phe" secondAttribute="bottom" constant="8" id="eSq-qJ-7Ex"/>
                             <constraint firstItem="aAn-uM-kVf" firstAttribute="top" secondItem="4r1-XR-Eyp" secondAttribute="bottom" constant="8" id="fFl-pt-5PW"/>
                             <constraint firstItem="4r1-XR-Eyp" firstAttribute="top" secondItem="mha-aL-ElD" secondAttribute="bottom" constant="32" id="hd5-CO-K7h"/>
                             <constraint firstItem="aAn-uM-kVf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ho1-t3-Is0"/>
@@ -246,6 +254,7 @@
                     <connections>
                         <outlet property="authorLabel" destination="mha-aL-ElD" id="oNz-dr-noZ"/>
                         <outlet property="doneButton" destination="aAn-uM-kVf" id="OcV-C9-LNi"/>
+                        <outlet property="duplicatedLabel" destination="KZX-m7-hd6" id="air-0Y-nAW"/>
                         <outlet property="imageBook" destination="4r1-XR-Eyp" id="AHJ-44-y7f"/>
                         <outlet property="isbTextField" destination="bmj-d9-Phe" id="56S-qq-idQ"/>
                         <outlet property="titleLabel" destination="Pdy-oT-wd7" id="bF9-AR-K7X"/>
